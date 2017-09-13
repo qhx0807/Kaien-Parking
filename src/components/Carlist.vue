@@ -40,7 +40,7 @@ name: 'carlist',
         },
         goBindCar(){
             this.$store.commit('UPDATE_DIRECTION', 'forward');
-            this.$router.push({name:'bindcar'});
+            this.$router.push({ name:'bindcar' });
         }
     }
 }
@@ -53,7 +53,7 @@ name: 'carlist',
     line-height: 52px;
     position: relative;
     top: 0;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     h4{
         padding-left: 20px;
         font-size: 17px;

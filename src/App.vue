@@ -18,7 +18,7 @@
                     </blur>
                 </div>
                 <group title="菜单" style="margin-top:20px;">
-                    <cell title="首页" link="/" @click.native="goMenu"></cell>
+                    <!-- <cell title="首页" link="/" @click.native="goMenu"></cell> -->
                     <cell title="缴费" link="/" @click.native="goMenu">
                         <div class="badge-value" slot="title">
                             <span class="vertical-middle">缴费</span>
@@ -42,12 +42,13 @@
             </div>
 
       <!-- main content -->
-      <view-box ref="viewBox" body-padding-top="46px" body-padding-bottom="55px">
+      <view-box ref="viewBox" body-padding-top="46px" body-padding-bottom="0px">
+      <!-- :title="title" -->
         <x-header slot="header"
-            style="width:100%;position:absolute;left:0;top:0;z-index:100;background-color:#F2F3F6;"
+            :style="styleObj"
             :left-options="leftOptions"
             :right-options="rightOptions"
-            :title="title"
+            
             :transition="headerTransition"
             @on-click-back="handerBack">
             <span v-if="$route.path === '/'" slot="overwrite-left" @click="drawerVisibility = !drawerVisibility">
@@ -102,16 +103,30 @@ export default {
             showPlacement: 'left',
             showPlacementValue: 'left',
             avatarUrl:'https://o3e85j0cv.qnssl.com/tulips-1083572__340.jpg',
+            styleObj:{
+            width:'100%',
+            position:'absolute',
+            left:0,
+            top:0,
+            zIndex:999,
+            backgroundColor:'#F2F3F6',
+            },
         }
     },
     mounted () {
-    
+        
     },
     beforeDestroy () {
         this.box && this.box.removeEventListener('scroll', this.handler, false)
     },
     watch: {
-    
+      "$route":function(to, from) {
+        if(to.name==='bindcar'){
+          this.styleObj.backgroundColor="rgba(0,0,0,.5)"
+        }else{
+          this.styleObj.backgroundColor="#F2F3F6"
+        }
+      }
     },
     computed: {
         ...mapState({
@@ -146,14 +161,14 @@ export default {
             this.drawerVisibility = false
             setTimeout(one => {
                 this.showModeValue = val
-            }, 400)
+            }, 100)
         },
         onPlacementChange (val) {
             /** hide drawer before changing position **/
             this.drawerVisibility = false
             setTimeout(one => {
                 this.showPlacementValue = val
-            }, 400)
+            }, 100)
         },
         onClickMore () {
             this.showMenu = true

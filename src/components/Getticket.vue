@@ -1,78 +1,82 @@
 <template>
-    <div class="tickets">
-        <p class="type">卡券类型</p>
-        <flexbox :gutter="0" wrap="wrap">
-            <flexbox-item :span="1/3">
-                <div class="flex-demo active">
-                    <img src="../assets/h.png" alt="">
-                    <h4 class="tic-name">一元卷</h4>
-                    <p class="mon">&yen; 1.00</p>
-                </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-                <div class="flex-demo">
-                    <img src="../assets/h.png" alt="">
-                     <h4 class="tic-name">一元卷</h4>
-                     <p class="mon">&yen; 1.00</p>
-                </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-                <div class="flex-demo">
-                    <img src="../assets/h.png" alt="">
-                     <h4 class="tic-name">一元卷</h4>
-                     <p class="mon">&yen; 1.00</p>
-                </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-                <div class="flex-demo">
-                    <img src="../assets/h.png" alt="">
-                     <h4 class="tic-name">一元卷</h4>
-                     <p class="mon">&yen; 1.00</p>
-                </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-                <div class="flex-demo">
-                    <img src="../assets/h.png" alt="">
-                     <h4 class="tic-name">一元卷</h4>
-                     <p class="mon">&yen; 1.00</p>
-                </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-                <div class="flex-demo">
-                    <img src="../assets/h.png" alt="">
-                     <h4 class="tic-name">一元卷</h4>
-                     <p class="mon">&yen; 1.00</p>
-                </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-                <div class="flex-demo">
-                    <img src="../assets/h.png" alt="">
-                     <h4 class="tic-name">一元卷</h4>
-                     <p class="mon">&yen; 1.00</p>
-                </div>
-            </flexbox-item>
-        </flexbox>
-        <p class="type" style="margin-top:10px;">卡券数量</p>
-        <flexbox :gutter="0" wrap="wrap">
-            <flexbox-item :span="1/3">
-                <div class="flex-demo">
-                    <h4 class="num-name">一张</h4>
-                    <span class="num">x1</span>
-                </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-                <div class="flex-demo">
-                    <h4 class="num-name">五张</h4>
-                    <span class="num">x5</span>
-                </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-                <div class="flex-demo">
-                    <h4 class="num-name">十张</h4>
-                    <span class="num">x10</span>
-                </div>
-            </flexbox-item>
-        </flexbox>
+    <div class="ts">
+        <div class="tickets">
+            <p class="type">卡券类型</p>
+            <flexbox :gutter="0" wrap="wrap">
+                <flexbox-item :span="1/3">
+                    <div class="flex-demo active">
+                        <img src="../assets/h3.png" alt="">
+                        <h4 class="tic-name">一元卷</h4>
+                        <p class="mon">&yen; 1.00</p>
+                    </div>
+                </flexbox-item>
+                <flexbox-item :span="1/3">
+                    <div class="flex-demo">
+                        <img src="../assets/h3.png" alt="">
+                         <h4 class="tic-name">一元卷</h4>
+                         <p class="mon">&yen; 1.00</p>
+                    </div>
+                </flexbox-item>
+                <flexbox-item :span="1/3">
+                    <div class="flex-demo">
+                        <img src="../assets/h3.png" alt="">
+                         <h4 class="tic-name">一元卷</h4>
+                         <p class="mon">&yen; 1.00</p>
+                    </div>
+                </flexbox-item>
+                <flexbox-item :span="1/3">
+                    <div class="flex-demo">
+                        <img src="../assets/h3.png" alt="">
+                         <h4 class="tic-name">一元卷</h4>
+                         <p class="mon">&yen; 1.00</p>
+                    </div>
+                </flexbox-item>
+                <flexbox-item :span="1/3">
+                    <div class="flex-demo">
+                        <img src="../assets/h3.png" alt="">
+                         <h4 class="tic-name">一元卷</h4>
+                         <p class="mon">&yen; 1.00</p>
+                    </div>
+                </flexbox-item>
+                <flexbox-item :span="1/3">
+                    <div class="flex-demo">
+                        <!-- <img src="../assets/h.png" alt=""> -->
+                         <h4 class="tic-name">一元卷</h4>
+                         <p class="mon">&yen; 1.00</p>
+                    </div>
+                </flexbox-item>
+                <flexbox-item :span="1/3">
+                    <div class="flex-demo">
+                        <!-- <img src="../assets/h.png" alt=""> -->
+                         <h4 class="tic-name">一元卷</h4>
+                         <p class="mon">&yen; 1.00</p>
+                    </div>
+                </flexbox-item>
+            </flexbox>
+            <p class="type" style="margin-top:10px;">卡券数量</p>
+            <flexbox :gutter="0" wrap="wrap">
+                <flexbox-item :span="1/3">
+                    <div class="flex-demo">
+                        <h4 class="num-name">一张</h4>
+                        <span class="num">x1</span>
+                    </div>
+                </flexbox-item>
+                <flexbox-item :span="1/3">
+                    <div class="flex-demo">
+                        <h4 class="num-name">五张</h4>
+                        <span class="num">x5</span>
+                    </div>
+                </flexbox-item>
+                <flexbox-item :span="1/3">
+                    <div class="flex-demo">
+                        <h4 class="num-name">十张</h4>
+                        <span class="num">x10</span>
+                    </div>
+                </flexbox-item>
+            </flexbox>
+            <div class="zw"></div>
+            
+        </div>
         <div class="tickets-foot">
             <p class="tips">温馨提示：购买优惠券可用于抵用停车费</p>
             <button>优惠价：？元</button>
@@ -155,46 +159,54 @@ export default {
 .tickets{
     padding-top: 14px;
     background-color: #fff;
-    padding-bottom: 20px;
+    padding-bottom: 0px;
     .type{
         font-size: 16px;
         color: black;
         padding-left: 12px;
         margin-bottom: 1px;
     }
-    .tickets-foot{
-        height: 130px;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: 12px 18px;
-        .tips{
+    .zw{
+        height: 20px;
+        width: 100%;
+        background-color: #fff;
+    }
+
+}
+.tickets-foot{
+    height: 130px;
+    // position: absolute;
+    // bottom: 0;
+    // left: 0;
+    // right: 0;
+    margin-top: 20px;
+    background-color: #F2F3F6;
+    padding: 12px 18px;
+    .tips{
+        font-size: 14px;
+        color: #f60;
+        text-align: center;
+    }
+    button{
+        width: 100%;
+        border: none;
+        outline: none;
+        height: 44px;
+        background-color: #FF5466;
+        color: white;
+        font-size: 16px;
+        margin-top: 8px;
+    }
+    .foot-tip{
+        margin-top: 12px;
+        text-align: center;
+        a{
+            color: skyblue;
             font-size: 14px;
-            color: #f60;
-            text-align: center;
         }
-        button{
-            width: 100%;
-            border: none;
-            outline: none;
-            height: 44px;
-            background-color: #FF5466;
-            color: white;
-            font-size: 16px;
-            margin-top: 10px;
-        }
-        .foot-tip{
-            margin-top: 12px;
-            text-align: center;
-            a{
-                color: skyblue;
-                font-size: 14px;
-            }
-            span{
-                color: gray;
-                font-size: 14px;
-            }
+        span{
+            color: gray;
+            font-size: 14px;
         }
     }
 }
@@ -205,14 +217,15 @@ export default {
     position: relative;
     border-radius: 5px;
     text-align: center;
-    border: 1px solid #ddd;
+    border: 1px solid #eee;
     color:deepskyblue;
     img{
         position: absolute;
-        top: -1px;
-        left: -1px;
+        top: 0px;
+        left: 0px;
         z-index: 9;
-
+        height: 30px;
+        
     }
     .tic-name{
         font-weight: normal;

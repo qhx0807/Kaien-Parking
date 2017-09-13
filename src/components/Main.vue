@@ -20,9 +20,10 @@
             <p>未找到在场车辆信息</p>
             <button disabled>缴费</button>
         </div>
-        <p class="subtit" @click="goBindCar">去绑定车辆
-            <!-- <router-link :to="{name:'bindcar'}">去绑定车辆</router-link> -->
-        </p>
+        <!-- <p class="subtit" @click="goBindCar">去绑定车辆
+           
+        </p> -->
+        <span class="bind-car-link" @click="goBindCar">去绑定车辆</span>
     </div>
 </template>
 
@@ -136,6 +137,7 @@ export default {
         border: none;
         outline: none;
         height: 32px;
+        line-height: 32px;
         width: 60px;
         line-height: 32px;
         color: white;
@@ -154,5 +156,12 @@ export default {
     text-align: right;
     margin-top: 10px;
     padding-right: 12px;
+}
+.bind-car-link{
+    float: right;
+    margin-right: 12px;
+    font-size: 14px;
+    color: #949494;
+    margin-top: 10px;
 }
 </style>

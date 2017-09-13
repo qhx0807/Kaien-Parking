@@ -271,4 +271,10 @@ export default {
     background-color: skyblue;
     color: #fff;
 }
+.weui-btn_primary{
+    background-color: deepskyblue;
+}
+.weui-btn_loading.weui-btn_primary{
+    background-color: deepskyblue;
+}
 </style>
