@@ -1,37 +1,29 @@
 <template>
     <div>
-        <!-- <swiper loop height="100px" dots-class="custom-bottom" dots-position="center">
-            <swiper-item class="black"><h2 class="title fadeInUp animated">1</h2></swiper-item>
-            <swiper-item class="black"><h2 class="title fadeInUp animated">2</h2></swiper-item>
-        </swiper> -->
-        <p class="title">请选择车牌号去缴费：</p>
-        <div class="car-item vux-1px-b">
-            <h4>渝A781212</h4>
-            <p>未找到在场车辆信息</p>
-            <button @click="goPayment">缴费</button>
+         <p v-if="isLoading" style="text-align:center;">
+            <inline-loading></inline-loading>
+            <span style="vertical-align:middle;display:inline-block;font-size:14px;">&nbsp;&nbsp;加载中</span>
+        </p>
+        <p v-if="carList.length>0" class="title">请选择车牌号去缴费：</p>
+        
+        <div class="car-item vux-1px-b" v-for="item in carList" :key="item.carcode">
+            <h4 v-html="item.carcode"></h4>
+            <p>{{ item.parkingtype }}</p>
+            <button @click="goPayment(item.parkingtype,item.carcode)">缴费</button>
         </div>
-        <div class="car-item vux-1px-b">
-            <h4>渝A781212</h4>
-            <p>未找到在场车辆信息</p>
-            <button @click="goPayment">缴费</button>
+        <div class="no-bind-car" v-if="carList.length==0 && !isLoading">
+            <p><icon type="safe-warn"></icon>您暂未绑定车辆</p>
+            <span @click="goBindCar">去绑定车辆&gt;&gt;</span>
         </div>
-        <div class="car-item vux-1px-b">
-            <h4>渝A781212</h4>
-            <p>未找到在场车辆信息</p>
-            <button disabled>缴费</button>
-        </div>
-        <!-- <p class="subtit" @click="goBindCar">去绑定车辆
-           
-        </p> -->
-        <span class="bind-car-link" @click="goBindCar">去绑定车辆</span>
+        <span v-if="carList.length>0" class="bind-car-link" @click="goBindCar">去绑定车辆</span>
     </div>
 </template>
 
 <script>
 
-import { Group, Cell, CellBox,Tabbar, TabbarItem, Icon, Swiper, SwiperItem, Divider, XButton } from 'vux'
+import { Group, Cell, CellBox,Tabbar, TabbarItem, Icon, Swiper, SwiperItem, Divider, XButton, InlineLoading } from 'vux'
 import { mapState, mapActions } from 'vuex'
-
+//{'openid':'ofgtAt-7QRzRwop5Ufm7Y2Iz0A2Y"}
 export default {
     name:'main',
     components: {
@@ -44,33 +36,56 @@ export default {
         Swiper,
         SwiperItem,
         Divider,
-        XButton
+        XButton,
+        InlineLoading
     },
     data () {
         return {
-            msg: 'Hello World!'
+            msg: 'Hello World!',
+            openid:'ofgtAt-7QRzRwop5Ufm7Y2Iz0A2Y',
+            isLoading:true,
+            carList:[],
         }
     },
     computed: {
        
     },
     mounted(){
-
+       this.getCarList()
     },
     methods:{
-        test(){
-            this.$store.commit('UPDATE_LOADING', true);
-        },
         goBindCar(){
             this.$store.commit('UPDATE_DIRECTION', 'forward');
             this.$router.push({name:'bindcar'});
         },
-        goPayment(){
+        goPayment(type, carcode){
             this.$store.commit('UPDATE_DIRECTION', 'forward');
-            this.$router.push({name:'payment'});
+            if(type==1){
+                this.$router.push({name:'payment', params:{car: carcode}});
+            }else{
+                this.$router.push({name:'monpayment', params:{car: carcode}});
+            }
+        },
+        getCarList(){
+            let openid = localStorage.getItem("openid")
+            this.$http.get(API_URL+'?Ctype=GetCarList&Openid='+openid)
+                .then(response => {
+                   console.log(response)
+                    let d = JSON.parse(response.data);
+                    this.carList = d.cars;
+                     this.isLoading = false;
+                })
+                .catch(error => {
+                    
+                    console.log(error)
+                    this.isLoading = false;
+                    //this.$vux.toast.text('网络连接出错！', 'middle')
+                })
         }
     }
 }
+
+
 </script>
 
 <style lang="less" scoped>
@@ -163,5 +178,22 @@ export default {
     font-size: 14px;
     color: #949494;
     margin-top: 10px;
+}
+.no-bind-car{
+    height: 50px;
+    text-align: center;
+    padding-top: 50px;
+    p{
+        line-height: 16px;
+        color: #f60;
+        margin-bottom: 30px;
+        i{
+            vertical-align: top;
+        }
+    }
+    span{
+        font-size: 14px;
+        color: dimgrey;
+    }
 }
 </style>

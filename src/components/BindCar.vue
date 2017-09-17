@@ -171,16 +171,31 @@ export default {
             this.curindex=1;
         },
         confirmNum(){
-            //this.$store.commit('UPDATE_LOADING', true);
+            this.$store.commit('UPDATE_LOADING', true);
             this.isLoading = true;
-            // this.$vux.toast.show({
-            //  text: 'Loading'
-            // })
-            var carnum = '';
+            let openid = localStorage.getItem("openid");
+            let carnum = '';
             this.carnumData.forEach(function (item) {
                 carnum+=item.val;
             })
-            //alert(carnum)
+            this.$http(API_URL+'?Ctype=AddCar&Openid='+openid+'&Carcode='+carnum)
+                .then(response => {
+                    console.log(response)
+                    this.$store.commit('UPDATE_LOADING', false);
+                    if(response.data.ok){
+                        this.$vux.toast.show({
+                         text: '绑定成功!'
+                        })
+                        this.$router.push({name:'carlist'})
+                    }else{
+                        this.$vux.toast.text(response.error, 'middle')
+                    }
+                })
+                .catch(error => {
+                    //console.log(error)
+                    this.$store.commit('UPDATE_LOADING', false);
+                    this.$vux.toast.text('网络连接出错！', 'middle')
+                })
         }
     }
 }

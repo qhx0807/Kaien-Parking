@@ -8,8 +8,14 @@ import store from './vuex/store.js'
 
 FastClick.attach(document.body)
 
+
+global.APP_ID = "wxd5d9a281cb63d43c"
+global.API_URL = "https://bird.ioliu.cn/v1?url=http://dzxt.kaien.cn/ParkingPay.ashx"
+
+global.DL_URL = "https://bird.ioliu.cn/v1?url="
+
 // plugins
-import {  BusPlugin, DatetimePlugin, LocalePlugin, DevicePlugin, ToastPlugin, AlertPlugin, ConfirmPlugin, LoadingPlugin, WechatPlugin, AjaxPlugin, AppPlugin } from 'vux'
+import {  BusPlugin, DatetimePlugin, LocalePlugin, DevicePlugin, ToastPlugin, AlertPlugin, ConfirmPlugin, LoadingPlugin, WechatPlugin, AjaxPlugin } from 'vux'
 
 
 Vue.use(DevicePlugin)

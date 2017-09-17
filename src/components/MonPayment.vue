@@ -7,11 +7,11 @@
         <div class="pay-body">
             <group>
                 <cell title="1">
-                    <div slot="title" class="li-title">开始时间</div>
+                    <div slot="title" class="li-title">开始日期</div>
                     <div slot="default" class="li-con">{{payData.parkingtime}}</div>
                 </cell>
                 <cell  title="1">
-                    <div slot="title" class="li-title">停车时间</div>
+                    <div slot="title" class="li-title">停车时间(月)</div>
                     <div slot="default" class="li-con">{{payData.parkinglength}}</div>
                 </cell>
                 <cell title="1">
@@ -37,7 +37,7 @@
             </group>
         </div>
         <div class="pay-btn">
-            <button :disabled="isDisabled" @click="pay">缴费：{{payData.cash_fee ? payData.cash_fee : '? '}}元</button>
+            <button :disabled="isPay" @click="pay">缴费：{{payData.cash_fee ? payData.cash_fee : '? '}}元</button>
             <p>使用说明</p>
         </div>
     </div>
@@ -69,7 +69,7 @@ export default {
                 coupon_fee:'',
                 cash_fee:'',
             },
-            isDisabled:false,
+            isPay:false,
         }
     },
     computed: {
@@ -103,9 +103,6 @@ export default {
                 })
         },
         pay(){
-            if(this.isDisabled){
-                return false;
-            }
             this.$store.commit('UPDATE_LOADING', true);
             let carcode = this.$route.params.car;
             let openid = localStorage.getItem("openid");
