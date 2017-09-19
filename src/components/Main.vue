@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="main-wrap">
          <p v-if="isLoading" style="text-align:center;">
             <inline-loading></inline-loading>
             <span style="vertical-align:middle;display:inline-block;font-size:14px;">&nbsp;&nbsp;加载中</span>
@@ -15,7 +15,9 @@
             <p><icon type="safe-warn"></icon>您暂未绑定车辆</p>
             <span @click="goBindCar">去绑定车辆&gt;&gt;</span>
         </div>
-        <span v-if="carList.length>0" class="bind-car-link" @click="goBindCar">去绑定车辆</span>
+        <div style="text-align:right;padding-top:10px">
+            <span v-if="carList.length>0" class="bind-car-link" @click="goBindCar">去绑定车辆</span>
+        </div>
     </div>
 </template>
 
@@ -60,7 +62,7 @@ export default {
         },
         goPayment(type, carcode){
             this.$store.commit('UPDATE_DIRECTION', 'forward');
-            if(type==1){
+            if(type=="临停车"){
                 this.$router.push({name:'payment', params:{car: carcode}});
             }else{
                 this.$router.push({name:'monpayment', params:{car: carcode}});
@@ -70,13 +72,11 @@ export default {
             let openid = localStorage.getItem("openid")
             this.$http.get(API_URL+'?Ctype=GetCarList&Openid='+openid)
                 .then(response => {
-                   console.log(response)
-                    let d = JSON.parse(response.data);
-                    this.carList = d.cars;
-                     this.isLoading = false;
+                    //console.log(response.data)
+                    this.carList = response.data.cars;
+                    this.isLoading = false;
                 })
                 .catch(error => {
-                    
                     console.log(error)
                     this.isLoading = false;
                     //this.$vux.toast.text('网络连接出错！', 'middle')
@@ -90,6 +90,10 @@ export default {
 
 <style lang="less" scoped>
 @import '~vux/src/styles/1px.less';
+
+.main-wrap{
+    padding-bottom: 30px;
+}
 
 .animated {
   animation-duration: 1s;
@@ -132,10 +136,9 @@ export default {
 }
 .car-item{
     height: 66px;
-    width: 100%;
     background-color: #fff;
     position: relative;
-    padding-left: 12px;
+    padding-left: 15px;
     padding-top: 12px;
     h4{
         font-size: 17px;
@@ -147,7 +150,7 @@ export default {
     }
     button{
         position: absolute;
-        right: 24px;
+        right: 15px;
         top: 22px;
         border: none;
         outline: none;
@@ -173,7 +176,7 @@ export default {
     padding-right: 12px;
 }
 .bind-car-link{
-    float: right;
+    text-align: right;
     margin-right: 12px;
     font-size: 14px;
     color: #949494;

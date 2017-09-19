@@ -182,7 +182,7 @@ export default {
                 .then(response => {
                     console.log(response)
                     this.$store.commit('UPDATE_LOADING', false);
-                    if(response.data.ok){
+                    if(response.data.indexOf('OK')>0){
                         this.$vux.toast.show({
                          text: '绑定成功!'
                         })

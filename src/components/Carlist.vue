@@ -1,12 +1,8 @@
 <template>
     <div>
-        <div class="car-list">
-            <h4>渝123456</h4>
-            <icon class="fl-r" type="clear"></icon>
-        </div>
-        <div class="car-list">
-            <h4>渝123456</h4>
-            <icon class="fl-r" type="clear"></icon>
+        <div class="car-list" v-for="item in carList" :key="item.carcode">
+            <h4 v-html="item.carcode"></h4>
+            <icon class="fl-r" @click.native="delItem(item.carcode)" type="clear"></icon>
         </div>
         <div class="add">
             <button @click="goBindCar">+ 添加绑定</button>
@@ -21,7 +17,8 @@ export default {
 name: 'carlist',
     data () {
         return {
-            msg: 'Welcome to Your Vue.js App'
+            msg: 'Welcome to Your Vue.js App',
+            carList:[],
         }
     },
     components:{
@@ -32,7 +29,7 @@ name: 'carlist',
        
     },
     mounted(){
-
+        this.getCarList();
     },
     methods:{
         test(){
@@ -41,6 +38,23 @@ name: 'carlist',
         goBindCar(){
             this.$store.commit('UPDATE_DIRECTION', 'forward');
             this.$router.push({ name:'bindcar' });
+        },
+        getCarList(){
+            let openid = localStorage.getItem("openid")
+            this.$http.get(API_URL+'?Ctype=GetCarList&Openid='+openid)
+                .then(response => {
+                    //console.log(response.data)
+                    this.carList = response.data.cars;
+                    this.isLoading = false;
+                })
+                .catch(error => {
+                    console.log(error)
+                    this.isLoading = false;
+                    //this.$vux.toast.text('网络连接出错！', 'middle')
+                })
+        },
+        delItem(e){
+            alert(e)
         }
     }
 }
@@ -68,6 +82,7 @@ name: 'carlist',
 .add{
     padding: 0 8px;
     padding-top: 30px;
+    padding-bottom: 30px;
     button{
         width: 100%;
         height: 42px;

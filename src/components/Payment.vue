@@ -20,7 +20,7 @@
                 </cell>
             </group>
         </div>
-        <div class="pay-yh">
+        <div class="pay-yh" v-if="payData.isusecard!=0">
             <group title="使用优惠券">
                 <!-- <popup-picker :title="title1" :data="list1" v-model="value1" @on-show="onShow" @on-hide="onHide" @on-change="onChange" placeholder="选择优惠券">
                 <template slot="title" scope="props">
@@ -92,26 +92,44 @@ export default {
           console.log('on hide', type)
         },
         getCarParking(){
+            this.$store.commit('UPDATE_LOADING', true);
             let carcode = this.$route.params.car;
             let openid = localStorage.getItem("openid");
             this.$http.get(API_URL+'?Ctype=QueryParking&Openid='+openid+'&Carcode='+carcode)
                 .then(response => {
                     console.log(response)
+                    this.$store.commit('UPDATE_LOADING', false);
+                    if(response.data.carcode){
+                        this.payData = response.data
+                    }else{
+                        this.$vux.alert.show({
+                            title: '提示',
+                            content: '未找到此车辆的停车信息',
+                            onHide () {
+                                window.history.go(-1);
+                            }
+                        })
+                    }
                 })
                 .catch(error => {
-                    this.$vux.toast.text('网络连接出错！', 'middle')
+                    this.$store.commit('UPDATE_LOADING', false);
                 })
         },
         pay(){
             if(this.isDisabled){
                 return false;
-            }
+            }   
             this.$store.commit('UPDATE_LOADING', true);
             let carcode = this.$route.params.car;
+            let carnum = encodeURI(carcode);
             let openid = localStorage.getItem("openid");
-            this.$http.get(API_URL+'?Ctype=TmpParkingPay&Openid='+openid+'&Carcode='+carcode)
+            this.$http.get(API_URL+'?Ctype=TmpParkingPay&Openid='+openid+'&Carcode='+carnum)
                 .then(response => {
-                    console.log(response)
+                    //console.log(response.data)
+                    if(response.statusText=="OK"){
+                        let d = JSON.parse(response.data);
+                        console.log(d)
+                    }
                     this.$store.commit('UPDATE_LOADING', false);
                 })
                 .catch(error => {

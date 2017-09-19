@@ -191,26 +191,6 @@ export default {
             var r = window.location.search.substr(1).match(reg);
             if(r!=null)return  unescape(r[2]); return null;
         },
-        getWxOpenid(){
-            let openid = localStorage.getItem("openid");
-            let code = this.getUrlParams("code");
-            if(!openid){
-                this.$http(API_URL+"?Ctype=GetOpenid&code="+code)
-                    .then(response => {
-                        console.log(response)
-                        if(response.ok){
-                            localStorage.setItem("openid", response.openid)
-                        }else{
-                            alert(response.error)
-                        }
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })
-            }
-
-
-        }
     }
 }
 </script>
