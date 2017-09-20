@@ -94,12 +94,13 @@ export default {
         getCarParking(){
             this.$store.commit('UPDATE_LOADING', true);
             let carcode = this.$route.params.car;
+            this.payData.carcode = carcode;
             let openid = localStorage.getItem("openid");
             this.$http.get(API_URL+'?Ctype=QueryParking&Openid='+openid+'&Carcode='+carcode)
                 .then(response => {
                     console.log(response)
                     this.$store.commit('UPDATE_LOADING', false);
-                    if(response.data.carcode){
+                    if(response.data.total_fee && response.data.total_fee>0){
                         this.payData = response.data
                     }else{
                         this.$vux.alert.show({
@@ -125,12 +126,12 @@ export default {
             let openid = localStorage.getItem("openid");
             this.$http.get(API_URL+'?Ctype=TmpParkingPay&Openid='+openid+'&Carcode='+carnum)
                 .then(response => {
-                    //console.log(response.data)
-                    if(response.statusText=="OK"){
-                        let d = JSON.parse(response.data);
-                        console.log(d)
-                    }
                     this.$store.commit('UPDATE_LOADING', false);
+                    if(response.data.purl){
+                        window.location.href = response.data.purl;
+                    }else{
+
+                    }
                 })
                 .catch(error => {
                     this.$store.commit('UPDATE_LOADING', false);

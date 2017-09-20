@@ -23,7 +23,7 @@ export default {
        
     },
     mounted(){
-        //localStorage.setItem("openid", "ofgtAt-7QRzRwop5Ufm7Y2Iz0A2Y")
+       // localStorage.setItem("openid", "ofgtAt-7QRzRwop5Ufm7Y2Iz0A2Y")
         this.getWxOpenid()
     },
     methods:{
@@ -34,13 +34,16 @@ export default {
         },
         getWxOpenid(){
             let openid = localStorage.getItem("openid");
-            let code = this.getUrlParams("code");
+            let url= document.location.href;
+            let uData = url.split("=");
+            let urlData = uData[1].split("&");
+            let code = urlData[0];
             if(!openid){
                 this.$http(API_URL+"?Ctype=GetOpenid&code="+code)
                     .then(response => {
                         console.log(response)
                         if(response.ok){
-                            localStorage.setItem("openid", response.openid);
+                            localStorage.setItem("openid", response.data.openid);
                             this.$router.replace({name: 'main'})
                         }else{
                             this.$vux.toast.text(response.error, 'default')
