@@ -127,6 +127,7 @@ export default {
             this.$http.get(API_URL+'?Ctype=TmpParkingPay&Openid='+openid+'&Carcode='+carnum)
                 .then(response => {
                     this.$store.commit('UPDATE_LOADING', false);
+                    console.log(response)
                     if(response.data.purl){
                         window.location.href = response.data.purl;
                     }else{

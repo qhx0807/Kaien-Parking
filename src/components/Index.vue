@@ -33,7 +33,7 @@ export default {
             if(r!=null)return  unescape(r[2]); return null;
         },
         getWxOpenid(){
-            let openid = localStorage.getItem("openid");
+            let openid = window.localStorage.getItem("openid");
             let url= document.location.href;
             let uData = url.split("=");
             let urlData = uData[1].split("&");
@@ -42,11 +42,13 @@ export default {
                 this.$http(API_URL+"?Ctype=GetOpenid&code="+code)
                     .then(response => {
                         console.log(response)
-                        if(response.ok){
-                            localStorage.setItem("openid", response.data.openid);
+                        //alert(response.data.openid)
+                        if(response.data.openid){
+                            window.localStorage.setItem("openid", response.data.openid);
                             this.$router.replace({name: 'main'})
                         }else{
                             this.$vux.toast.text(response.error, 'default')
+                           // alert(response.statusText)
                         }
                     })
                     .catch(error => {
