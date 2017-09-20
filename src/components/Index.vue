@@ -23,7 +23,7 @@ export default {
        
     },
     mounted(){
-       // localStorage.setItem("openid", "ofgtAt-7QRzRwop5Ufm7Y2Iz0A2Y")
+        localStorage.setItem("openid", "ofgtAt-7QRzRwop5Ufm7Y2Iz0A2Y")
         this.getWxOpenid()
     },
     methods:{
@@ -35,10 +35,12 @@ export default {
         getWxOpenid(){
             let openid = window.localStorage.getItem("openid");
             let url= document.location.href;
-            let uData = url.split("=");
-            let urlData = uData[1].split("&");
-            let code = urlData[0];
+            
             if(!openid){
+                let uData = url.split("=");
+                let urlData = uData[1].split("&");
+                let code = urlData[0];
+
                 this.$http(API_URL+"?Ctype=GetOpenid&code="+code)
                     .then(response => {
                         console.log(response)

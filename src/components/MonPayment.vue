@@ -94,7 +94,7 @@ export default {
         getCarParking(){
             let carcode = this.$route.params.car;
             let openid = localStorage.getItem("openid");
-            this.$http.get(API_URL+'?Ctype=QueryParking&Openid='+openid+'&Carcode='+carcode)
+            this.$http.get(API_URL+'?Ctype=MonthlyTicketPay&Openid='+openid+'&Carcode='+carcode)
                 .then(response => {
                     console.log(response)
                 })
