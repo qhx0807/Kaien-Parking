@@ -76,8 +76,8 @@ export default {
        
     },
     mounted(){
-       //this.getCarParking();
-       this.payData.carcode = this.$route.params.car;
+        //this.getCarParking();e
+        this.payData.carcode = this.$route.params.car;
         var d = new Date();
         this.startDate = d.getFullYear() + '-' + (d.getMonth()+1 + '-' + d.getDate());
     },
@@ -114,7 +114,11 @@ export default {
                 .then(response => {
                     console.log(response)
                     this.$store.commit('UPDATE_LOADING', false);
-                    alert(response.data.purl)
+                    if(response.data.purl){
+                        window.location.href = response.data.purl;
+                    }else{
+
+                    }
                 })
                 .catch(error => {
                     this.$store.commit('UPDATE_LOADING', false);
