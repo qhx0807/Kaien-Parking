@@ -23,7 +23,7 @@ export default {
        
     },
     mounted(){
-        localStorage.setItem("openid", "ofgtAt-7QRzRwop5Ufm7Y2Iz0A2Y")
+        //localStorage.setItem("openid", "ofgtAt-7QRzRwop5Ufm7Y2Iz0A2Y")
         this.getWxOpenid()
     },
     methods:{
