@@ -22,21 +22,21 @@
                     <cell title="缴费" link="/main" @click.native="goMenu">
                         <div class="badge-value" slot="title">
                             <span class="vertical-middle">缴费</span>
-                            <badge text="1"></badge>
+                            <!-- <badge text="1"></badge> -->
                         </div>
                     </cell>
                     <cell title="绑定车辆" link="/carlist" @click.native="goMenu">
                         <img slot="default" src="../assets/car.png" class="cell-icon">
                     </cell>
                 </group>
-                <group title="优惠活动" style="margin-top:20px;">
-                    <cell title="获得优惠券" link="/getticket" value="折扣" @click.native="goMenu"></cell>
-                    <cell title="我的卡券" link="/myticket" @click.native="goMenu">
+                <group title="卡券" style="margin-top:20px;">
+                    <cell title="获得优惠券" link="/getticket" value="" @click.native="goMenu"></cell>
+                    <!-- <cell title="我的卡券" link="/myticket" @click.native="goMenu">
                         <div class="badge-value" slot="title">
                             <span class="vertical-middle">我的卡券</span>
                             <badge text="2"></badge>
                         </div>
-                    </cell>
+                    </cell> -->
                 </group>
                 
             </div>
@@ -179,7 +179,7 @@ export default {
         },
         handerBack(){
             this.$store.commit('UPDATE_DIRECTION', 'reverse');
-            history.go(-1);
+            this.$router.push({name:'main'});
         },
         goMenu(){
             this.$store.commit('UPDATE_DIRECTION', 'forward');

@@ -3,83 +3,21 @@
         <div class="tickets">
             <p class="type">卡券类型</p>
             <flexbox :gutter="0" wrap="wrap">
-                <flexbox-item :span="1/3">
-                    <div class="flex-demo active">
-                        <img src="../assets/h3.png" alt="">
-                        <h4 class="tic-name">一元卷</h4>
-                        <p class="mon">&yen; 1.00</p>
+                <flexbox-item :span="1/3" v-for="(item, index) in ticketsData" :key="item.val">
+                    <div class="flex-demo" :class="{active:selectedTicket==index}" @click="selectTicket(index, item.cardname)">
+                        <!-- <img src="../assets/h3.png" alt=""> -->
+                        <h4 class="tic-name">{{item.name}}</h4>
+                        <p class="mon">&yen; {{item.val}}</p>
                     </div>
                 </flexbox-item>
-                <flexbox-item :span="1/3">
-                    <div class="flex-demo">
-                        <img src="../assets/h3.png" alt="">
-                         <h4 class="tic-name">一元卷</h4>
-                         <p class="mon">&yen; 1.00</p>
-                    </div>
-                </flexbox-item>
-                <flexbox-item :span="1/3">
-                    <div class="flex-demo">
-                        <img src="../assets/h3.png" alt="">
-                         <h4 class="tic-name">一元卷</h4>
-                         <p class="mon">&yen; 1.00</p>
-                    </div>
-                </flexbox-item>
-                <flexbox-item :span="1/3">
-                    <div class="flex-demo">
-                        <img src="../assets/h3.png" alt="">
-                         <h4 class="tic-name">一元卷</h4>
-                         <p class="mon">&yen; 1.00</p>
-                    </div>
-                </flexbox-item>
-                <flexbox-item :span="1/3">
-                    <div class="flex-demo">
-                        <img src="../assets/h3.png" alt="">
-                         <h4 class="tic-name">一元卷</h4>
-                         <p class="mon">&yen; 1.00</p>
-                    </div>
-                </flexbox-item>
-                <flexbox-item :span="1/3">
-                    <div class="flex-demo">
-                        <!-- <img src="../assets/h.png" alt=""> -->
-                         <h4 class="tic-name">一元卷</h4>
-                         <p class="mon">&yen; 1.00</p>
-                    </div>
-                </flexbox-item>
-                <flexbox-item :span="1/3">
-                    <div class="flex-demo">
-                        <!-- <img src="../assets/h.png" alt=""> -->
-                         <h4 class="tic-name">一元卷</h4>
-                         <p class="mon">&yen; 1.00</p>
-                    </div>
-                </flexbox-item>
+                
             </flexbox>
-            <p class="type" style="margin-top:10px;">卡券数量</p>
-            <flexbox :gutter="0" wrap="wrap">
-                <flexbox-item :span="1/3">
-                    <div class="flex-demo">
-                        <h4 class="num-name">一张</h4>
-                        <span class="num">x1</span>
-                    </div>
-                </flexbox-item>
-                <flexbox-item :span="1/3">
-                    <div class="flex-demo">
-                        <h4 class="num-name">五张</h4>
-                        <span class="num">x5</span>
-                    </div>
-                </flexbox-item>
-                <flexbox-item :span="1/3">
-                    <div class="flex-demo">
-                        <h4 class="num-name">十张</h4>
-                        <span class="num">x10</span>
-                    </div>
-                </flexbox-item>
-            </flexbox>
-            <div class="zw"></div>
+            
             
         </div>
         <div class="tickets-foot">
             <p class="tips">温馨提示：购买优惠券可用于抵用停车费</p>
-            <button>优惠价：？元</button>
+            <button @click="buyTicket">优惠价：{{payfee}}元</button>
             <p class="foot-tip">
                 <a href="">购买记录</a>
                 <span> |</span>
@@ -113,30 +51,24 @@ export default {
             demo5: 1,
             ticketsData:[
                 {
-                    name:'一元券',
-                    val:'1',
+                    name:'3元券',
+                    val:'3.00',
+                    cardname:'3元停车卷',
                 },
                 {
-                    name:'三元券',
-                    val:'3',
+                    name:'5元券',
+                    val:'5.00',
+                    cardname:'5元停车卷',
                 },
                 {
-                    name:'五元券',
-                    val:'5',
-                },
-                {
-                    name:'二小时卷',
-                    val:'2h',
-                },
-                {
-                    name:'四小时卷',
-                    val:'4h',
-                },
-                {
-                    name:'全免费卷',
-                    val:'h',
+                    name:'10元券',
+                    val:'10.00',
+                    cardname:'10元停车卷',
                 },
             ],
+            selectedTicket:-1,
+            payfee:'？',
+            cardname:'',
         }
     },
     computed: {
@@ -149,6 +81,50 @@ export default {
         test(){
             this.$store.commit('UPDATE_LOADING', true);
             
+        },
+        selectTicket(index, cardname){
+            this.selectedTicket = index;
+            this.cardname = cardname;
+            switch (index){
+                case 0:
+                    this.payfee = 3;
+                    break;
+                case 1:
+                    this.payfee = 5;
+                    break;
+                case 2:
+                    this.payfee = 10;
+                    break;
+                default:
+                    this.payfee = "？";
+            }
+        },
+        buyTicket(){
+            if(this.cardname==""){
+                this.$vux.alert.show({
+                    title: '提示',
+                    content: '请选择一种卡券！',
+                })
+                return false;
+            }
+            this.$store.commit('UPDATE_LOADING', true);
+            let openid = localStorage.getItem("openid");
+            this.$http.get(API_URL+'?Ctype=BuyCard&Openid='+openid+'&cardname='+this.cardname)
+                .then(response => {
+                    this.$store.commit('UPDATE_LOADING', false);
+                    console.log(response)
+                    if(response.data.payurl){
+                        window.location.href = response.data.payurl;
+                    }else{
+                        this.$vux.toast.show({
+                            type: 'warn',
+                            text: 'error'
+                        })
+                    }
+                })
+                .catch(error => {
+                    this.$store.commit('UPDATE_LOADING', false);
+                })
         }
     }
 }
@@ -157,9 +133,10 @@ export default {
 <style lang="less" scoped>
 @import '~vux/src/styles/1px.less';
 .tickets{
-    padding-top: 14px;
+    padding-top: 30px;
     background-color: #fff;
-    padding-bottom: 0px;
+    padding-bottom: 40px;
+    height: 400px;
     .type{
         font-size: 16px;
         color: black;
@@ -175,11 +152,11 @@ export default {
 }
 .tickets-foot{
     height: 130px;
-    // position: absolute;
-    // bottom: 0;
-    // left: 0;
-    // right: 0;
-    margin-top: 20px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+   // margin-top: 120px;
     background-color: #F2F3F6;
     padding: 12px 18px;
     .tips{

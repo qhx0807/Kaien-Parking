@@ -20,12 +20,12 @@
                 </popup-picker>
                 <cell title="1">
                     <div slot="title" class="li-title">费用总计</div>
-                    <div slot="default" class="li-con money" v-if="payData.total_fee">&yen; {{payData.total_fee}}</div>
+                    <div slot="default" class="li-con money" v-if="payData.total_fee">&yen; {{payData.total_fee}}.00</div>
                 </cell>
                 
             </group>
         </div>
-        <div class="pay-yh">
+        <!-- <div class="pay-yh">
             <group title="使用优惠券">
                 
               <cell title="1">
@@ -33,10 +33,10 @@
                     <div slot="default" class="li-con ">-{{payData.coupon_fee}}</div>
                 </cell>
             </group>
-        </div>
+        </div> -->
         <div class="pay-btn">
-            <button :disabled="isPay" @click="pay">缴费：{{payData.cash_fee ? payData.cash_fee : '? '}}元</button>
-            <p>使用说明</p>
+            <button :disabled="isPay" @click="pay">缴费：{{payData.total_fee ? payData.total_fee : '? '}}元</button>
+            <!-- <p>使用说明</p> -->
         </div>
     </div>
 </template>
@@ -62,7 +62,7 @@ export default {
                 carcode:'',
                 parkingtime:'',
                 parkinglength:'',
-                total_fee:'',
+                total_fee:'300',
                 isusecard:'',
                 coupon_fee:'',
                 cash_fee:'',
@@ -86,7 +86,8 @@ export default {
             this.$store.commit('UPDATE_LOADING', true);
         },
         onChange (val) {
-          this.monnum = val[0].substring(0,1);
+          this.monnum = parseInt(val[0].substring(0,2));
+          this.payData.total_fee = parseInt(this.monnum)*300;
         },
          onShow () {
           console.log('on show')

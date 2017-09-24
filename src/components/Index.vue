@@ -36,18 +36,24 @@ export default {
             let openid = window.localStorage.getItem("openid");
             let url= document.location.href;
             
-            if(!openid){
-                let uData = url.split("=");
-                let urlData = uData[1].split("&");
-                let code = urlData[0];
+            let uData = url.split("=");
+            let urlData = uData[1].split("&");
+            let code = urlData[0];
 
+            let state = uData[2].split("#")[0];
+
+            if(!openid){
                 this.$http(API_URL+"?Ctype=GetOpenid&code="+code)
                     .then(response => {
                         console.log(response)
                         //alert(response.data.openid)
                         if(response.data.openid){
                             window.localStorage.setItem("openid", response.data.openid);
-                            this.$router.replace({name: 'main'})
+                            if(state=="bt"){
+                                this.$router.replace({name: 'getticket'})
+                            }else{
+                                this.$router.replace({name: 'main'})
+                            }
                         }else{
                             this.$vux.toast.text(response.error, 'default')
                            // alert(response.statusText)
@@ -57,7 +63,11 @@ export default {
                        this.$vux.toast.text('获取用户信息出错', 'default')
                     })
             }else{
-                this.$router.replace({name: 'main'})
+                if(state=="bt"){
+                    this.$router.replace({name: 'getticket'})
+                }else{
+                    this.$router.replace({name: 'main'})
+                }
             }
         }
     }

@@ -32,13 +32,13 @@
               </popup-picker> -->
               <cell title="1">
                     <div slot="title" class="li-title" style=" font-size: 14px; color: #7B7B7B;"><img style="vertical-align:middle;" src="../assets/hot1.gif" alt="">优惠金额</div>
-                    <div slot="default" class="li-con ">-{{payData.coupon_fee}}</div>
+                    <div slot="default" class="li-con" style="font-size:14px;color:#ff490b">-{{payData.coupon_fee}}元</div>
                 </cell>
             </group>
         </div>
         <div class="pay-btn">
             <button :disabled="isDisabled" @click="pay">缴费：{{payData.cash_fee ? payData.cash_fee : '? '}}元</button>
-            <p>使用说明</p>
+            <!-- <p>使用说明</p> -->
         </div>
     </div>
 </template>
@@ -100,7 +100,7 @@ export default {
                 .then(response => {
                     console.log(response)
                     this.$store.commit('UPDATE_LOADING', false);
-                    if(response.data.total_fee && response.data.total_fee>0){
+                    if(response.data.total_fee && response.data.total_fee>=0){
                         this.payData = response.data
                     }else{
                         this.$vux.alert.show({
@@ -117,7 +117,7 @@ export default {
                 })
         },
         pay(){
-            if(this.isDisabled){
+            if(this.isDisabled || this.payData.total_fee==0){
                 return false;
             }   
             this.$store.commit('UPDATE_LOADING', true);
@@ -130,8 +130,8 @@ export default {
                     console.log(response)
                     if(response.data.purl){
                         window.location.href = response.data.purl;
-                    }else{
-
+                    }else if(response.data.ok){
+                        alert("ok")
                     }
                 })
                 .catch(error => {
