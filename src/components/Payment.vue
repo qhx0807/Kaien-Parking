@@ -70,6 +70,7 @@ export default {
                 cash_fee:'',
             },
             isDisabled:false,
+            btnText:'缴费：？元',
         }
     },
     computed: {
@@ -100,9 +101,13 @@ export default {
                 .then(response => {
                     console.log(response)
                     this.$store.commit('UPDATE_LOADING', false);
-                    if(response.data.total_fee && response.data.total_fee>=0){
-                        this.payData = response.data
+                    if(response.data.total_fee && response.data.total_fee>0){
+                        this.payData = response.data;
+                        this.btnText = "缴费："+response.data.total_fee+"元";
+                    }else if(response.data.total_fee && response.data.total_fee==0){
+                        this.btnText = "确认出场";
                     }else{
+                        this.btnText = "缴费：？元";
                         this.$vux.alert.show({
                             title: '提示',
                             content: '未找到此车辆的停车信息',
@@ -131,7 +136,7 @@ export default {
                     if(response.data.purl){
                         window.location.href = response.data.purl;
                     }else if(response.data.ok){
-                        alert("ok")
+                        window.location.href = "http://dzxt.kaien.cn/result/tmp_success.html";
                     }
                 })
                 .catch(error => {

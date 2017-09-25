@@ -17,7 +17,7 @@
         </div>
         <div class="tickets-foot">
             <p class="tips">温馨提示：购买优惠券可用于抵用停车费</p>
-            <button @click="buyTicket">优惠价：{{payfee}}元</button>
+            <button @click="buyTicket">付费：{{payfee}}元</button>
             <p class="foot-tip">
                 <a href="">购买记录</a>
                 <span> |</span>
