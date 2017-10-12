@@ -7,11 +7,21 @@
         <div class="add">
             <button @click="goBindCar">+ 添加绑定</button>
         </div>
+
+        <div v-transfer-dom>
+            <confirm
+                v-model="confirmShow"
+                :close-on-confirm="false"
+                title="提示"
+                @on-confirm="onConfirm">
+                <p style="text-align:center;"><b>{{carnum}}</b>&nbsp;是否移除此车牌号？</p>
+            </confirm>
+        </div>
     </div>
 </template>
 
 <script>
-import {  Icon, XButton } from 'vux'
+import {  Icon, XButton, Confirm, TransferDomDirective as TransferDom } from 'vux'
 import { mapState, mapActions } from 'vuex'
 export default {
 name: 'carlist',
@@ -19,11 +29,17 @@ name: 'carlist',
         return {
             msg: 'Welcome to Your Vue.js App',
             carList:[],
+            confirmShow:false,
+            carnum:'',
         }
+    },
+    directives: {
+        TransferDom
     },
     components:{
         Icon,
-        XButton
+        XButton,
+        Confirm
     },
     computed: {
        
@@ -54,8 +70,36 @@ name: 'carlist',
                 })
         },
         delItem(e){
-            alert(e)
-        }
+            this.confirmShow = true;
+            this.carnum = e;
+            
+        },
+        onConfirm () {
+            this.$vux.loading.show({
+                transition: '',
+                text: '加载中...'
+            })
+            let openid = localStorage.getItem("openid");
+            this.$http.get(API_URL+'?Ctype=delcarnum&Openid='+openid+'&carnum='+this.carnum)
+                .then(response => {
+                    console.log(response.data)
+                    this.$vux.loading.hide()
+                    this.confirmShow = false;
+                    if(response.data.error){
+                        this.$vux.toast.text('操作出错', 'middle');
+                        return false;
+                    }else{
+                        this.getCarList();
+                        this.$vux.toast.text('移除成功！', 'middle')
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                    this.$vux.loading.hide()
+                    this.confirmShow = false
+                    this.$vux.toast.text('网络连接出错！', 'middle')
+                })
+        },
     }
 }
 </script>
