@@ -13,7 +13,7 @@ global.APP_ID = "wxd5d9a281cb63d43c"
 
 // global.API_URL = "../ParkingPay.ashx"
 
-global.API_URL = "https://bird.ioliu.cn/v1?url=http://dzxt.kaien.cn//ParkingPay.ashx"
+global.API_URL = "https://bird.ioliu.cn/v1?url=http://39.108.15.145/parkingpay.ashx"
 
 global.DL_URL = "https://bird.ioliu.cn/v1?url="
 
