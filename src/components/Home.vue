@@ -10,13 +10,12 @@
             :placement="showPlacementValue"
             :drawer-style="{'background-color':'#fff', width: '220px'}">
 
-            <!-- drawer content -->
             <div slot="drawer">
-                <div class="avatar">
+                <!-- <div class="avatar">
                     <blur :blur-amount='10' :height='150'  :url="avatarUrl">
                         <p class="center"><img :src="avatarUrl"></p>
                     </blur>
-                </div>
+                </div> -->
                 <group title="菜单" style="margin-top:20px;">
                     <!-- <cell title="首页" link="/" @click.native="goMenu"></cell> -->
                     <cell title="缴费" link="/main" @click.native="goMenu">
@@ -29,8 +28,8 @@
                         <img slot="default" src="../assets/car.png" class="cell-icon">
                     </cell>
                 </group>
-                <group title="卡券" style="margin-top:20px;">
-                    <cell title="获得优惠券" link="/getticket" value="" @click.native="goMenu"></cell>
+                <group title="优惠" style="margin-top:20px;">
+                    <cell title="优惠缴费" link="/getticket" value="" @click.native="goMenu"></cell>
                     <!-- <cell title="我的卡券" link="/myticket" @click.native="goMenu">
                         <div class="badge-value" slot="title">
                             <span class="vertical-middle">我的卡券</span>

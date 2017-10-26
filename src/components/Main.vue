@@ -6,10 +6,10 @@
         </p>
         <p v-if="carList.length>0" class="title">请选择车牌号去缴费：</p>
         
-        <div class="car-item vux-1px-b" v-for="item in carList" :key="item.carcode">
-            <h4 v-html="item.carcode"></h4>
-            <p>{{ item.parkingtype }}</p>
-            <button @click="goPayment(item.parkingtype,item.carcode)">缴费</button>
+        <div class="car-item vux-1px-b" v-for="item in carList" :key="item">
+            <h4 v-html="parse(item).CarCode"></h4>
+            <p>{{ parse(item).parkingtype }}</p>
+            <button @click="goPayment(parse(item).parkingtype,parse(item).CarCode)">缴费</button>
         </div>
         <div class="no-bind-car" v-if="carList.length==0 && !isLoading">
             <p><icon type="safe-warn"></icon>您暂未绑定车辆</p>
@@ -57,6 +57,13 @@ export default {
     },
     methods:{
         goBindCar(){
+            if(this.carList.length>=5){
+                this.$vux.toast.show({
+                    type: 'warn',
+                    text: '绑定车牌数量不能超过5个'
+                })
+                return false
+            }
             this.$store.commit('UPDATE_DIRECTION', 'forward');
             this.$router.push({name:'bindcar'});
         },
@@ -73,7 +80,7 @@ export default {
             this.$http.get(API_URL+'?Ctype=GetCarList&Openid='+openid)
                 .then(response => {
                     //console.log(response.data)
-                    this.carList = response.data.cars;
+                    this.carList = JSON.parse(response.data.cars);
                     this.isLoading = false;
                 })
                 .catch(error => {
@@ -81,6 +88,9 @@ export default {
                     this.isLoading = false;
                     //this.$vux.toast.text('网络连接出错！', 'middle')
                 })
+        },
+         parse(str){
+            return JSON.parse(str)
         }
     }
 }

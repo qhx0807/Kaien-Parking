@@ -1,8 +1,9 @@
 <template>
     <div>
-        <div class="car-list" v-for="item in carList" :key="item.carcode">
-            <h4 v-html="item.carcode"></h4>
-            <icon class="fl-r" @click.native="delItem(item.carcode)" type="clear"></icon>
+        <div class="car-list" v-for="item in carList" :key="item.CarCode">
+            <h4 v-html="parse(item).CarCode"></h4>
+            （<span class="car-type" v-html="parse(item).parkingtype"></span>）
+            <icon class="fl-r" @click.native="delItem(JSON.parse(item).carcode)" type="clear"></icon>
         </div>
         <div class="add">
             <button @click="goBindCar">+ 添加绑定</button>
@@ -52,6 +53,13 @@ name: 'carlist',
             this.$store.commit('UPDATE_LOADING', true);
         },
         goBindCar(){
+             if(this.carList.length>=5){
+                this.$vux.toast.show({
+                    type: 'warn',
+                    text: '绑定车牌数量不能超过5个'
+                })
+                return false
+            }
             this.$store.commit('UPDATE_DIRECTION', 'forward');
             this.$router.push({ name:'bindcar' });
         },
@@ -59,8 +67,8 @@ name: 'carlist',
             let openid = localStorage.getItem("openid")
             this.$http.get(API_URL+'?Ctype=GetCarList&Openid='+openid)
                 .then(response => {
-                    //console.log(response.data)
-                    this.carList = response.data.cars;
+                    console.log(response)
+                    this.carList = JSON.parse(response.data.cars);
                     this.isLoading = false;
                 })
                 .catch(error => {
@@ -80,13 +88,13 @@ name: 'carlist',
                 text: '加载中...'
             })
             let openid = localStorage.getItem("openid");
-            this.$http.get(API_URL+'?Ctype=delcarnum&Openid='+openid+'&carnum='+this.carnum)
+            this.$http.get(API_URL+'?Ctype=DelCarNum&Openid='+openid+'&carnum='+this.carnum)
                 .then(response => {
                     console.log(response.data)
                     this.$vux.loading.hide()
                     this.confirmShow = false;
                     if(response.data.error){
-                        this.$vux.toast.text('操作出错', 'middle');
+                        this.$vux.toast.text(response.data.error, 'middle');
                         return false;
                     }else{
                         this.getCarList();
@@ -100,6 +108,9 @@ name: 'carlist',
                     this.$vux.toast.text('网络连接出错！', 'middle')
                 })
         },
+        parse(str){
+            return JSON.parse(str)
+        }
     }
 }
 </script>
@@ -116,6 +127,10 @@ name: 'carlist',
         padding-left: 20px;
         font-size: 17px;
         font-weight: normal;
+        display: inline;
+    }
+    .car-type{
+        font-size: 14px;
     }
     .fl-r{
         position: absolute;

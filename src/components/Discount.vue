@@ -25,11 +25,6 @@
                 </flexbox-item>
             </flexbox>
         </div>
-        <div style="text-align:center">
-            <checker v-model="selectedType" default-item-class="demo1-item" selected-item-class="demo1-item-selected">
-                <checker-item v-for="item in carTypeData" :value="item.ParamValue" :key="item.ID">{{item.ParamValue}}</checker-item>
-            </checker>
-        </div>
         <div class="keyboard">
             <div style=" padding: 0px 3px">
                 <flexbox  :gutter="3" justify="center">
@@ -60,7 +55,7 @@
                     </flexbox-item>
                 </flexbox>
             </div>
-            <x-button :show-loading="isLoading" @click.native="confirmNum" class="addcar" :type="btnType" :disabled="isdisabled">确认</x-button>
+            <x-button :show-loading="isLoading" @click.native="confirmNum" class="addcar" :type="btnType" :disabled="isdisabled">缴费</x-button>
         </div>
     </div>
 </template>
@@ -143,9 +138,6 @@ export default {
     computed: {
        
     },
-    created(){
-        this.getCarType()
-    },
     mounted(){
 
     },
@@ -181,10 +173,7 @@ export default {
             this.curindex=1;
         },
         confirmNum(){
-            if(!this.selectedType){
-                this.$vux.toast.text('请选择车辆类型', 'middle');
-                return false;
-            }
+            
             this.$store.commit('UPDATE_LOADING', true);
             this.isLoading = true;
             let openid = localStorage.getItem("openid");
@@ -192,34 +181,22 @@ export default {
             this.carnumData.forEach(function (item) {
                 carnum+=item.val;
             })
-            this.$http(API_URL+'?Ctype=AddCar&Openid='+openid+'&Carcode='+carnum+'&cartype='+this.selectedType)
+            this.$http(API_URL+'?Ctype=BuyCard&Openid='+openid+'&Carcode='+carnum)
                 .then(response => {
-                    console.log(response)
                     this.$store.commit('UPDATE_LOADING', false);
-                    if(response.data.indexOf('OK')>0){
-                        this.$vux.toast.show({
-                         text: '绑定成功!'
-                        })
-                        this.$router.push({name:'carlist'})
+                    console.log(response)
+                    if(response.data.payurl){
+                        window.location.href = response.data.payurl;
                     }else{
-                        this.$vux.toast.text(response.error, 'middle')
+                        this.$vux.toast.show({
+                            type: 'warn',
+                            text: 'error'
+                        })
                     }
                 })
                 .catch(error => {
                     //console.log(error)
                     this.$store.commit('UPDATE_LOADING', false);
-                    this.$vux.toast.text('网络连接出错！', 'middle')
-                })
-        },
-        getCarType(){
-            let openid = localStorage.getItem("openid");
-            this.$http(API_URL+'?Ctype=DataDicDetailQuery&Openid='+openid+'&paramsort=cartype')
-                .then(response => {
-                    this.carTypeData = response.data
-                    //console.log(response)
-                })
-                .catch(error => {
-                    //console.log(error)
                     this.$vux.toast.text('网络连接出错！', 'middle')
                 })
         },

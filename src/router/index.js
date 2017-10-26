@@ -11,6 +11,7 @@ const MonPayment = resolve => require(['@/components/MonPayment'], resolve)
 const Getticket = resolve => require(['@/components/Getticket'], resolve)
 const Myticket = resolve => require(['@/components/Myticket'], resolve)
 const Carlist = resolve => require(['@/components/Carlist'], resolve)
+const Discount = resolve => require(['@/components/Discount'], resolve)
 
 const Home = resolve => require(['@/components/Home'], resolve)
 
@@ -48,8 +49,8 @@ const router = new Router({
 				},
 				{
 					path: '/getticket',
-					name: 'getticket',
-					component: Getticket
+					name: 'discount',
+					component: Discount
 				},
 				{
 					path: '/myticket',
