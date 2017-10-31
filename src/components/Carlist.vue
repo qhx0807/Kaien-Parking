@@ -3,7 +3,7 @@
         <div class="car-list" v-for="item in carList" :key="item.CarCode">
             <h4 v-html="parse(item).CarCode"></h4>
             （<span class="car-type" v-html="parse(item).parkingtype"></span>）
-            <icon class="fl-r" @click.native="delItem(JSON.parse(item).carcode)" type="clear"></icon>
+            <icon class="fl-r" @click.native="delItem(parse(item).CarCode)" type="clear"></icon>
         </div>
         <div class="add">
             <button @click="goBindCar">+ 添加绑定</button>
@@ -67,8 +67,9 @@ name: 'carlist',
             let openid = localStorage.getItem("openid")
             this.$http.get(API_URL+'?Ctype=GetCarList&Openid='+openid)
                 .then(response => {
-                    console.log(response)
+                    //console.log(response)
                     this.carList = JSON.parse(response.data.cars);
+                   // console.log(this.carList)
                     this.isLoading = false;
                 })
                 .catch(error => {
@@ -88,7 +89,7 @@ name: 'carlist',
                 text: '加载中...'
             })
             let openid = localStorage.getItem("openid");
-            this.$http.get(API_URL+'?Ctype=DelCarNum&Openid='+openid+'&carnum='+this.carnum)
+            this.$http.get(API_URL+'?Ctype=DelCarNum&Openid='+openid+'&carcode='+this.carnum)
                 .then(response => {
                     console.log(response.data)
                     this.$vux.loading.hide()

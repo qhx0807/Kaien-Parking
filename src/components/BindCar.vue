@@ -166,7 +166,19 @@ export default {
             }
         },
         deleteKey(){
-            this.carnumData[this.curindex-1].val='';
+            //alert(this.curindex)
+            //this.carnumData[this.curindex-1].val='';
+           // this.carnumData[this.curindex-2].val = ''
+           // this.curindex = this.curindex-1
+
+            if(this.curindex == 7 && this.carnumData[6].val){
+                this.carnumData[this.curindex-1].val='';
+            }else if(this.curindex>1 && !this.carnumData[6].val){
+                this.carnumData[this.curindex-2].val = ''
+                this.curindex = this.curindex-1
+            }else if(this.curindex == 1){
+                
+            }
         },
         clearKey(){
             this.carnumData=[
@@ -196,17 +208,21 @@ export default {
                 .then(response => {
                     console.log(response)
                     this.$store.commit('UPDATE_LOADING', false);
-                    if(response.data.indexOf('OK')>0){
+                    this.isLoading = false;
+                    if(response.data.ok){
                         this.$vux.toast.show({
                          text: '绑定成功!'
                         })
                         this.$router.push({name:'carlist'})
+                    }else if(response.data.error){
+                        this.$vux.toast.text(response.data.error, 'middle')
                     }else{
-                        this.$vux.toast.text(response.error, 'middle')
+                        this.$vux.toast.text(response.data, 'middle')
                     }
                 })
                 .catch(error => {
                     //console.log(error)
+                    this.isLoading = false;
                     this.$store.commit('UPDATE_LOADING', false);
                     this.$vux.toast.text('网络连接出错！', 'middle')
                 })
@@ -327,7 +343,7 @@ export default {
   //background-color: white
 }
 .demo1-item-selected {
-  border: 1px solid deepskyblue;
+  border: 3px solid deepskyblue;
   background-color: white;
   color: black;
 }

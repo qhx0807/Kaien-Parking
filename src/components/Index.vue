@@ -50,7 +50,7 @@ export default {
                         if(response.data.openid){
                             window.localStorage.setItem("openid", response.data.openid);
                             if(state=="bt"){
-                                this.$router.replace({name: 'getticket'})
+                                this.$router.replace({name: 'discount'})
                             }else{
                                 this.$router.replace({name: 'main'})
                             }
@@ -64,7 +64,7 @@ export default {
                     })
             }else{
                 if(state=="bt"){
-                    this.$router.replace({name: 'getticket'})
+                    this.$router.replace({name: 'discount'})
                 }else{
                     this.$router.replace({name: 'main'})
                 }

@@ -158,7 +158,14 @@ export default {
             }
         },
         deleteKey(){
-            this.carnumData[this.curindex-1].val='';
+            if(this.curindex == 7 && this.carnumData[6].val){
+                this.carnumData[this.curindex-1].val='';
+            }else if(this.curindex>1 && !this.carnumData[6].val){
+                this.carnumData[this.curindex-2].val = ''
+                this.curindex = this.curindex-1
+            }else if(this.curindex == 1){
+                
+            }
         },
         clearKey(){
             this.carnumData=[
