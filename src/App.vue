@@ -26,5 +26,10 @@ export default {
 </script>
 
 <style lang="less">
-
+body{
+    margin:0;
+}
+.router-view{
+    height: 100%;
+}
 </style>

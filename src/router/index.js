@@ -24,6 +24,11 @@ const router = new Router({
 	      	component: IndexPage
 		},
 		{
+			path: '/getticket',
+			name: 'discount',
+			component: Discount
+		},
+		{
 			path: '/home',
 			component: Home,
 			children: [
@@ -46,11 +51,6 @@ const router = new Router({
 					path: '/monpayment/:car',
 					name: 'monpayment',
 					component: MonPayment
-				},
-				{
-					path: '/getticket',
-					name: 'discount',
-					component: Discount
 				},
 				{
 					path: '/myticket',

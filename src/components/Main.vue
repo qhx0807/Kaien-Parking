@@ -6,7 +6,7 @@
         </p>
         <p v-if="carList.length>0" class="title">请选择车牌号去缴费：</p>
         
-        <div class="car-item vux-1px-b" v-for="item in carList" :key="item">
+        <div class="car-item vux-1px-b" v-for="item in carList" v-if="parse(item).parkingtype!='免费车'" :key="item">
             <h4 v-html="parse(item).CarCode"></h4>
             <p>{{ parse(item).parkingtype }}</p>
             <button @click="goPayment(parse(item).parkingtype,parse(item).CarCode)">缴费</button>
@@ -68,6 +68,10 @@ export default {
             this.$router.push({name:'bindcar'});
         },
         goPayment(type, carcode){
+            if(type=='免费车'){
+                this.$vux.toast.text('免费车不能缴费', 'middle')
+                return false
+            }
             this.$store.commit('UPDATE_DIRECTION', 'forward');
             if(type=="临停车"){
                 this.$router.push({name:'payment', params:{car: carcode}});

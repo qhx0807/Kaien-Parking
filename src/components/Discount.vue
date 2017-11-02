@@ -1,5 +1,9 @@
 <template>
-    <div style="height:100%;width: 100%;background-color: rgba(0,0,0,.5);">
+    <div style="height:100vh;width: 100%;background-color: rgba(0,0,0,.5);">
+        <div class="info">
+            <h4>商户代缴停车费:</h4>
+            <p>请输入顾客车牌号，然后缴费。（每次购买定额8元，限一车次4小时内停车，超出4小时后费用另计，停车时限未满4小时不找补。)</p>
+        </div>
         <div class="carnum">
             <flexbox :gutter="4">
                 <flexbox-item>
@@ -215,6 +219,17 @@ export default {
 
 @import '~vux/src/styles/1px.less';
 
+.info{
+    padding: 10px;
+    color:#fff;
+    h4{
+        font-size: 16px;
+        margin:10px 0;
+    }
+    p{
+        line-height: 24px;
+    }
+}
 
 .animated {
   animation-duration: 1s;
@@ -270,7 +285,8 @@ export default {
 }
 .carnum{
     padding: 0 12px;
-    padding-top: 25vh;
+    margin-top: 10vh;
+    
 }
 .flex-demo-num{
     text-align: center;
