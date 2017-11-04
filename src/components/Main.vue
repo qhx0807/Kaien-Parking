@@ -73,10 +73,10 @@ export default {
                 return false
             }
             this.$store.commit('UPDATE_DIRECTION', 'forward');
-            if(type=="临停车"){
-                this.$router.push({name:'payment', params:{car: carcode}});
-            }else{
+            if(type=="月票车"){
                 this.$router.push({name:'monpayment', params:{car: carcode}});
+            }else{
+                this.$router.push({name:'payment', params:{car: carcode}});
             }
         },
         getCarList(){
