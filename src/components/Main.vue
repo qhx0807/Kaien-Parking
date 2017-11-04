@@ -6,7 +6,7 @@
         </p>
         <p v-if="carList.length>0" class="title">请选择车牌号去缴费：</p>
         
-        <div class="car-item vux-1px-b" v-for="item in carList" v-if="parse(item).parkingtype!='免费车'" :key="item">
+        <div class="car-item vux-1px-b" v-for="item in carList" :key="item">
             <h4 v-html="parse(item).CarCode"></h4>
             <p>{{ parse(item).parkingtype }}</p>
             <button @click="goPayment(parse(item).parkingtype,parse(item).CarCode)">缴费</button>
@@ -43,7 +43,6 @@ export default {
     },
     data () {
         return {
-            msg: 'Hello World!',
             openid:'ofgtAt-7QRzRwop5Ufm7Y2Iz0A2Y',
             isLoading:true,
             carList:[],
