@@ -105,6 +105,7 @@ export default {
                         this.payData = response.data;
                         this.btnText = "缴费："+response.data.total_fee+"元";
                     }else if(response.data.total_fee && response.data.total_fee==0){
+                        this.payData.total_fee = 0;
                         this.btnText = "确认出场";
                     }else{
                         this.btnText = "缴费：？元";
@@ -124,7 +125,7 @@ export default {
         pay(){
             if(this.isDisabled || this.payData.total_fee==0){
                 return false;
-            }   
+            }
             this.$store.commit('UPDATE_LOADING', true);
             let carcode = this.$route.params.car;
             let carnum = encodeURI(carcode);

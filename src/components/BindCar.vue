@@ -213,7 +213,8 @@ export default {
                         this.$vux.toast.show({
                          text: '绑定成功!'
                         })
-                        this.$router.push({name:'carlist'})
+                        //this.$router.push({name:'carlist'})
+                        this.$router.push({name:'payment', params:{car: carnum}});
                     }else if(response.data.error){
                         this.$vux.toast.text(response.data.error, 'middle')
                     }else{
@@ -302,7 +303,7 @@ export default {
 }
 .carnum{
     padding: 0 12px;
-    padding-top: 25vh;
+    padding-top: 10vh;
 }
 .flex-demo-num{
     text-align: center;

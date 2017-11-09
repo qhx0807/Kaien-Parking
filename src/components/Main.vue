@@ -84,6 +84,9 @@ export default {
                 .then(response => {
                     //console.log(response.data)
                     this.carList = JSON.parse(response.data.cars);
+                    if(this.carList.length==0){
+                        this.$router.push({name:'bindcar'})
+                    }
                     this.isLoading = false;
                 })
                 .catch(error => {
