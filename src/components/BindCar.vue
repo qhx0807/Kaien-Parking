@@ -25,11 +25,11 @@
                 </flexbox-item>
             </flexbox>
         </div>
-        <div style="text-align:center">
+        <!-- <div style="text-align:center">
             <checker v-model="selectedType" default-item-class="demo1-item" selected-item-class="demo1-item-selected">
                 <checker-item v-for="item in carTypeData" :value="item.ParamValue" :key="item.ID">{{item.ParamValue}}</checker-item>
             </checker>
-        </div>
+        </div> -->
         <div class="keyboard">
             <div style=" padding: 0px 3px">
                 <flexbox  :gutter="3" justify="center">
@@ -106,7 +106,7 @@ export default {
             ],
             clickedKey:'-1',
             carTypeData:[],
-            selectedType:'',
+            selectedType:'小型车',
         }
     },
     watch:{
@@ -144,7 +144,7 @@ export default {
        
     },
     created(){
-        this.getCarType()
+        //this.getCarType()
     },
     mounted(){
 
@@ -193,10 +193,10 @@ export default {
             this.curindex=1;
         },
         confirmNum(){
-            if(!this.selectedType){
-                this.$vux.toast.text('请选择车辆类型', 'middle');
-                return false;
-            }
+            // if(!this.selectedType){
+            //     this.$vux.toast.text('请选择车辆类型', 'middle');
+            //     return false;
+            // }
             this.$store.commit('UPDATE_LOADING', true);
             this.isLoading = true;
             let openid = localStorage.getItem("openid");
@@ -303,7 +303,7 @@ export default {
 }
 .carnum{
     padding: 0 12px;
-    padding-top: 10vh;
+    padding-top: 15vh;
 }
 .flex-demo-num{
     text-align: center;
