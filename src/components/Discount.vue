@@ -59,7 +59,7 @@
                     </flexbox-item>
                 </flexbox>
             </div>
-            <x-button :show-loading="isLoading" @click.native="confirmNum" class="addcar" :type="btnType" :disabled="isdisabled">缴费</x-button>
+            <x-button :show-loading="isLoading" @click.native="confirmNum" class="addcar" :type="btnType" :disabled="isdisabled">确定</x-button>
         </div>
     </div>
 </template>
@@ -192,10 +192,39 @@ export default {
             this.carnumData.forEach(function (item) {
                 carnum+=item.val;
             })
+            this.$http(API_URL+'?Ctype=QueryParking&Openid='+openid+'&Carcode='+carnum)
+                .then(response => {
+                    this.$store.commit('UPDATE_LOADING', false);
+                    console.log(response)
+                    if(response.data.total_fee==0){
+                        this.$vux.toast.show({
+                            type: 'warn',
+                            text: '费用为0元'
+                        })
+                    }else if(response.data.total_fee>0){
+                        this.fee(carnum)
+                    }else if(response.data.error){
+                        this.$vux.toast.show({
+                            type: 'warn',
+                            text: response.data.error
+                        })
+                        this.isLoading = false
+                    }else{
+                        this.isLoading = false
+                    }
+                })
+                .catch(error => {
+                    //console.log(error)
+                    this.$store.commit('UPDATE_LOADING', false);
+                    this.$vux.toast.text('网络连接出错！', 'middle')
+                })
+        },
+        fee(carnum){
             this.$http(API_URL+'?Ctype=BuyCard&Openid='+openid+'&Carcode='+carnum)
                 .then(response => {
                     this.$store.commit('UPDATE_LOADING', false);
                     console.log(response)
+                    this.isLoading = false
                     if(response.data.payurl){
                         window.location.href = response.data.payurl;
                     }else{
@@ -207,10 +236,11 @@ export default {
                 })
                 .catch(error => {
                     //console.log(error)
+                    this.isLoading = false
                     this.$store.commit('UPDATE_LOADING', false);
                     this.$vux.toast.text('网络连接出错！', 'middle')
                 })
-        },
+        }
     }
 }
 </script>
